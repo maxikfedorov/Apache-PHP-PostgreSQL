@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  system:
+    build:
+      context: system
+    depends_on:
+      - postgres
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - php-env
+
+  postgres:
+    container_name: pg_db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "root"
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+    volumes:
+      - "./postgres_data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - php-env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "8001:80"
+    depends_on:
+      - postgres
+    networks:
+      - php-env
+
+networks:
+  php-env:
+    driver: bridge
