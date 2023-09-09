@@ -1,8 +1,5 @@
 <?php
-$host = 'pg_db';
-$dbname = 'postgres';
-$user = 'root';
-$password = 'root';
+include_once("DB_CONNECT.php");
 
 try {
     #СОЕДИНЕНИЕ С БД
@@ -10,7 +7,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #ЗАПРОС НА ВЫВОД ВСЕХ ЗАПИСЕЙ ТАБЛИЦЫ table1
-    $query = "SELECT * FROM test_table";
+    $query = "SELECT * FROM test_table ORDER BY id ASC";
     $stmt = $pdo->query($query);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $json = json_encode($result);
@@ -19,4 +16,5 @@ try {
 } catch (PDOException $e) {
     echo "Ошибка соединения с базой данных: " . $e->getMessage();
 }
+
 ?>

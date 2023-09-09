@@ -1,8 +1,5 @@
 <?php
-$host = 'pg_db';
-$dbname = 'postgres';
-$user = 'root';
-$password = 'root';
+include_once("DB_CONNECT.php");
 
 $id = $_GET['id'];
 
@@ -12,7 +9,11 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #УДАЛЕНИЕ ЗАПИСИ ИЗ table
-    $query = "DELETE FROM test_table WHERE id = $id";
+    if (empty($id)) {
+        $query = "DELETE FROM test_table WHERE id = (SELECT MAX(id) FROM test_table)";
+    } else {
+        $query = "DELETE FROM test_table WHERE id = $id";
+    }
     $stmt = $pdo->query($query);
 
     if ($stmt->rowCount() > 0) {

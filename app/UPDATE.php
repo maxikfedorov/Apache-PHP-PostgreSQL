@@ -1,8 +1,5 @@
 <?php
-$host = 'pg_db';
-$dbname = 'postgres';
-$user = 'root';
-$password = 'root';
+include_once("DB_CONNECT.php");
 
 $id = $_GET['id'];
 $name = $_GET['name'];
