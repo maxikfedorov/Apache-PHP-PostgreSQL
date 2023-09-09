@@ -10,10 +10,6 @@ services:
       - ./app:/var/www/html
     ports:
       - "8080:80"
-
-    environment:
-      DB_PORT: ${DB_PORT}
-
     networks:
       - php-env
 
@@ -27,7 +23,7 @@ services:
     volumes:
       - "./postgres_data:/var/lib/postgresql/data"
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
     networks:
       - php-env
 
@@ -40,7 +36,8 @@ services:
       - "8001:80"
     depends_on:
       - postgres
-
+    networks:
+      - php-env
 
 networks:
   php-env:
